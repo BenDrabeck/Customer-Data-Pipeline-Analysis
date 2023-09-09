@@ -1,12 +1,9 @@
-
-
-
-# Importing required modules for Airflow DAG
+import pandas as pd
+import sqlite3
 from airflow import DAG
 from airflow.operators.python import PythonOperator
 from datetime import datetime, timedelta
 import subprocess
-# Setting default arguments for the DAG
 
 default_args = {{
     'owner': 'airflow',
@@ -14,18 +11,17 @@ default_args = {{
     'email_on_failure': False,
     'email_on_retry': False,
     'retries': 1,
-# Defining the DAG with its properties
+#wait 5 min before retrying
     'retry_delay': timedelta(minutes=5),
 }}
-
+#run this daily with no catchup as previous data is already imported
 dag = DAG('shopify_linear_regression_pipeline',
           default_args=default_args,
-# Your DAG tasks go below this line
           description='Data pipeline for Shopify data ingestion and linear regression model',
           schedule_interval=timedelta(days=1),
           start_date=datetime(2023, 9, 2),
           catchup=False)
-
+#ETL scripts
 def run_ingestion_script():
     subprocess.run(["python", "shopify_data_ingestion.py"])
 
@@ -43,14 +39,10 @@ t2 = PythonOperator(
     python_callable=run_transformation_script,
     dag=dag,
 )
-
+#extract or ingest first, then transform
 t1 >> t2
 
-
-
-import pandas as pd
-import sqlite3
-
+#transforms with SQL connection and dropping values
 def transform_shopify_data():
     try:
         # Read data from SQL database
@@ -70,7 +62,7 @@ def transform_shopify_data():
     except Exception as e:
         print(f"Failed to transform data. Error: {e}")
 
-# Add this function as a task in the existing Airflow DAG
+#adds this function as a task in the existing Airflow DAG
 
 
 transform_task = PythonOperator(
@@ -78,9 +70,7 @@ transform_task = PythonOperator(
     python_callable=transform_shopify_data,
     dag=dag,
 )
-
-# Assuming there's an existing task for data ingestion called 'ingestion_task'
-# and another one for data analysis called 'analysis_task'
+#basic ETL
 ingestion_task >> transform_task >> analysis_task
 
 
@@ -89,7 +79,7 @@ import sqlite3
 
 def import_csv_to_sql():
     try:
-        # Connect to the database
+        #connect to the database
         conn = sqlite3.connect('shopify_data.db')
         
         # Read the CSV into a DataFrame
