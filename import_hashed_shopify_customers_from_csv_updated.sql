@@ -29,7 +29,10 @@ note TEXT,
 tax_exempt TEXT
 );
 
-LOAD DATA INFILE 'benjamindrabeck/downloads/hashed_final_customers_data.csv' INTO TABLE hashed_shopify_customers
+-- Import data commands go here (you'll do this part manually or via a data ingestion process)
+-- Example:
+-- .mode csv
+-- .import 'path/to/your/final_customers_data.csv' hashed_shopify_customers
 
 
 
@@ -42,3 +45,6 @@ SELECT customer_id, total_spent
 FROM hashed_shopify_customers 
 ORDER BY total_spent DESC 
 LIMIT 10;
+
+
+LOAD DATA INFILE '/mnt/data/hashed_customers_data.csv' INTO TABLE hashed_shopify_customers;
