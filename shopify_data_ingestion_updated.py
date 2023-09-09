@@ -5,7 +5,6 @@ import pandas as pd
 import sqlite3
 # Function to save DataFrame to SQLite database
 
-# Function to save DataFrame to SQL database
 def save_to_database(df, table_name, db_name='shopify_data.db'):
     try:
         conn = sqlite3.connect(db_name)
@@ -15,7 +14,6 @@ def save_to_database(df, table_name, db_name='shopify_data.db'):
     except Exception as e:
         print(f"Failed to save data to database. Error: {e}")
 
-# Function to fetch data from Shopify and save it to database
 # Function to fetch data from Shopify and save it to database
 def fetch_data_from_shopify(api_key, password, shop_url, resource):
     # Make the API request
