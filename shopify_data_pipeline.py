@@ -6,6 +6,7 @@ from datetime import datetime, timedelta
 import subprocess
 
 default_args = {{
+#no email, independent task instances
     'owner': 'airflow',
     'depends_on_past': False,
     'email_on_failure': False,
