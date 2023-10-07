@@ -30,7 +30,7 @@ tax_exempt TEXT
 );
 
 -- .mode csv
--- .import 'path/to/your/final_customers_data.csv' hashed_shopify_customers
+import 'test/final_customers_data.csv' hashed_shopify_customers
 
 
 
