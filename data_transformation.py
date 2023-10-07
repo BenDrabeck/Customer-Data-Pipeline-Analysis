@@ -5,42 +5,25 @@ import pandas as pd
 from sklearn.preprocessing import MinMaxScaler
 
 def clean_data(df):
-    """
-    Cleans the input DataFrame by removing NaN and duplicate values.
+
+    #Cleans the input DataFrame by removing NaN and duplicate values.
     
-    Parameters:
-        df (DataFrame): The input DataFrame to be cleaned.
-    
-    Returns:
-        DataFrame: The cleaned DataFrame.
-    """
     df.dropna(subset=['Total Spent', 'Total Orders'], inplace=True)
     df.drop_duplicates(inplace=True)
     return df
 
 def feature_engineering(df):
-    """
-    Performs feature engineering on the input DataFrame.
+
+    #Performs feature engineering on the input DataFrame.
     
-    Parameters:
-        df (DataFrame): The input DataFrame for feature engineering.
-    
-    Returns:
-        DataFrame: The DataFrame with new features.
-    """
     df['Spent_per_Order'] = df['Total Spent'] / df['Total Orders']
     return df
 
 def normalize_data(df):
-    """
-    Normalizes 'Total Spent' and 'Total Orders' in the input DataFrame.
     
-    Parameters:
-        df (DataFrame): The input DataFrame to be normalized.
-    
-    Returns:
-        DataFrame: The normalized DataFrame.
-    """
+    #Normalizes 'Total Spent' and 'Total Orders' in the input DataFrame.
+
+  
     scaler = MinMaxScaler()
     df[['Total Spent', 'Total Orders']] = scaler.fit_transform(df[['Total Spent', 'Total Orders']])
     return df
