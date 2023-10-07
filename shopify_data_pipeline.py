@@ -26,7 +26,7 @@ def run_ingestion_script():
     subprocess.run(["python", "shopify_data_ingestion.py"])
 
 def run_transformation_script():
-    subprocess.run(["python", "new_data_transformation.py"])
+    subprocess.run(["python", "data_transformation.py"])
 
 t1 = PythonOperator(
     task_id='run_ingestion_script',
@@ -83,7 +83,7 @@ def import_csv_to_sql():
         conn = sqlite3.connect('shopify_data.db')
         
         # Read the CSV into a DataFrame
-        df = pd.read_csv('/path/to/your/final_customers_data.csv')
+        df = pd.read_csv('test/final_customers_data.csv')
         
         # Save the DataFrame to SQL
         df.to_sql('hashed_shopify_customers', conn, if_exists='replace', index=False)
